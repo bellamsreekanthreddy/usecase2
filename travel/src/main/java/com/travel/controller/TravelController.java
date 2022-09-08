@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.travel.entity.Weather;
 import com.travel.service.TravelService;
 
@@ -28,6 +30,10 @@ public class TravelController {
 	@RequestMapping(value="/weather/{id}", method=RequestMethod.GET)
 	public Weather retriveSpceficDetails(@PathVariable int id) {
 		Optional<Weather> weather=travelService.retriveById(id);
+		if(weather.isEmpty()) {
+			throw new ResponseStatusException(404, null, null);
+		}
+		ResponseEntity.badRequest().build();
 		return weather.get();
 		
 	}

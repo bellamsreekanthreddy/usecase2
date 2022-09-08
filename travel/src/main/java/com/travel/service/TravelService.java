@@ -23,13 +23,15 @@ public class TravelService {
 		travelRepository.save(weather);
 	}
 	public boolean deleteById(int id) {
-		Optional<Weather> w= retriveById(id);
-		if (w!=null) {
-		travelRepository.deleteById(id);
-		return true;
-		}else {
+		Optional<Weather> weathers=retriveById(id);
+		if (weathers.isEmpty()) {
 			return false;
+		}else {
+			travelRepository.deleteById(id);
+			return true;
+			
 		}
+		
 	}
 	public Optional<Weather> retriveById(int id) {
 		return travelRepository.findById(id);
